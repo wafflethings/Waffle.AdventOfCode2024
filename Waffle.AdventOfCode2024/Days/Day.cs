@@ -30,6 +30,6 @@ public abstract class Day
         string? answer = part == Part.One ? PartOne(content) : PartTwo(content);
         stopwatch.Stop();
         
-        Console.WriteLine($"Part {(part == Part.One ? "one" : "two")} complete in {stopwatch.Elapsed.TotalMicroseconds}ms\nAnswer was [{answer}].");
+        Console.WriteLine($"Part {(part == Part.One ? "one" : "two")} complete in {stopwatch.Elapsed.TotalMilliseconds}ms\nAnswer was [{answer}].");
     }
 }
