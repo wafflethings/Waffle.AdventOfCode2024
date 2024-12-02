@@ -4,7 +4,7 @@ namespace Waffle.AdventOfCode2024;
 
 public class Program
 {
-    private static Day[] s_days = [new DayOne()];
+    private static Day[] s_days = [new DayOne(), new DayTwo()];
     
     static void Main(string[] args)
     {
