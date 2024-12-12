@@ -4,11 +4,11 @@ namespace Waffle.AdventOfCode2024;
 
 public class Program
 {
-    private static Day[] s_days = [new DayOne(), new DayTwo()];
+    private static Day[] s_days = [new DayOne(), new DayTwo(), null, new DayFour()];
     
     static void Main(string[] args)
     {
-        Console.WriteLine("❄️ -- Advent of Code 2024 -- 🎄\n");
+        Console.WriteLine("-- AoC 2024 --\n");
 
         Day? day = null;
         while (day == null)
