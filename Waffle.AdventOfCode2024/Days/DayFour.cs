@@ -12,11 +12,7 @@ public sealed class DayFour : Day
         int amount = 0;
         foreach (GridSpace<char> gridSpace in letterArray) 
         {
-            if (!CountLetter(gridSpace)) 
-            {
-                continue;
-            }
-            amount++;
+            amount += CountLetter(gridSpace);
         }
 
         return amount.ToString();
@@ -43,12 +39,14 @@ public sealed class DayFour : Day
         return output;
     }
 
-    private bool CountLetter(GridSpace<char> character) 
+    private int CountLetter(GridSpace<char> character) 
     {
         if (character.Value != 'X') 
         {
-            return false;
+            return 0;
         }
+
+        int total = 0;
 
         for (int xDir = -1; xDir <= 1; xDir++) 
         {
@@ -59,27 +57,34 @@ public sealed class DayFour : Day
                     continue;
                 }
 
-                char[] characters = ['X', 'M', 'A', 'S'];
-                GridSpace<char> previous = character;
-
-                for (int step = 0; step < 4; step++) 
-                {
-                    if (previous.Value != characters[step]) 
-                    {
-                        return false;
-                    }
-
-                    if (!previous.DirectionValid(xDir, yDir) && characters[step] != characters[^1]) 
-                    {
-                        return false;
-                    }
-
-                    previous = previous.GetInDirection(xDir, yDir);
-                }
+                total += CheckDirection(character, xDir, yDir) ? 1 : 0;
             }
         }
 
-        return false;
+        return total;
+    }
+
+    private bool CheckDirection(GridSpace<char> character, int xDir, int yDir) 
+    {
+        char[] characters = ['X', 'M', 'A', 'S'];
+        GridSpace<char> previous = character;
+
+        for (int step = 0; step < 4; step++) 
+        {
+            if (previous.Value != characters[step]) 
+            {
+                return false;
+            }
+
+            if (!previous.DirectionValid(xDir, yDir)) // must be end of the word 
+            {
+                return characters[step] == characters[^1];
+            }
+
+            previous = previous.GetInDirection(xDir, yDir);
+        }
+        
+        return true;
     }
 }
 
@@ -100,10 +105,9 @@ public class GridSpace<T>
 
     public bool DirectionValid(int x, int y) 
     { 
-        Console.WriteLine($"Checking {x},{y}");
         int nextX = X + x;
         int nextY = Y + y;
-        return nextX <= _array.GetUpperBound(0) && nextY <= _array.GetUpperBound(1) && nextX <= 0 && nextY <= 0;
+        return nextX <= _array.GetUpperBound(0) && nextY <= _array.GetUpperBound(1) && nextX >= 0 && nextY >= 0;
     }
 
     public GridSpace<T> GetInDirection(int x, int y) => _array[X + x, Y + y];
